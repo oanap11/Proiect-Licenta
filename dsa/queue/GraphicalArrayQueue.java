@@ -1,4 +1,4 @@
-package dsa;
+package dsa.queue;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -8,7 +8,8 @@ public class GraphicalArrayQueue {
     Rectangle2D qArray[];
     String val[];
     Line2D h, t;
-    int head, tail, count, size;
+    int head, tail, count;
+	public int size;
     int halfHeight;
     
     public GraphicalArrayQueue(int size, int width, int height) {

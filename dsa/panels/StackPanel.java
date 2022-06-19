@@ -1,4 +1,4 @@
-package dsa;
+package dsa.panels;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Button;
@@ -30,12 +30,17 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import dsa.SinglyLinkedList;
+import dsa.stack.GraphicalArrayStack;
+import dsa.stack.StackComponent;
+import dsa.stack.StackListComponent;
+
 public class StackPanel extends javax.swing.JPanel {
 
-    StackComponent scomp;
-    GraphicalArrayStack sA;
+    StackComponent stackComp;
+    GraphicalArrayStack stackArray;
     StackListComponent lcomp;
-    SingleLinkedList listA;
+    SinglyLinkedList listA;
     
     private JSeparator jSeparator1, jSeparator2, jSeparator3, jSeparator4, jSeparator5, jSeparator6;
 
@@ -43,11 +48,9 @@ public class StackPanel extends javax.swing.JPanel {
 
     private JPanel sArrayPanel, sLinkedPanel, stackArrayNorthPanel, stackCenterPanel, stackLinkedNorthPanel1, stackArraySouthPanel, stackLinkedSouthPanel;
     private JSlider sArraySlider;
-    private JButton sArrayStepButton;
     private JButton sLPushButton;
 
     private JSlider sLinkedSlider1;
-    private Button sLinkedStepButton1;
     private JTextField sListInputText;
     private JButton sListPopButton;
     private JTextField sinputText;
@@ -62,7 +65,7 @@ public class StackPanel extends javax.swing.JPanel {
         initComponents();
         lcomp = new StackListComponent();
         sLinkedPanel.add(lcomp,BorderLayout.CENTER);
-        listA = new SingleLinkedList();
+        listA = new SinglyLinkedList();
         lcomp.setValues(listA,0,'n');
         sLinkedPanel.revalidate();
         pushButton.setEnabled(false);
@@ -79,7 +82,6 @@ public class StackPanel extends javax.swing.JPanel {
         
         sArraySlider = new JSlider();
         
-        sArrayStepButton = new JButton();
         stackArraySouthPanel = new JPanel();
         stackLinkedSouthPanel = new JPanel();
         
@@ -228,8 +230,6 @@ public class StackPanel extends javax.swing.JPanel {
         stackArraySouthPanel.setPreferredSize(new Dimension(100, 100));
         
         sArrayPanel.add(stackArraySouthPanel, BorderLayout.SOUTH);
-        
-
 
         stackPane.addTab("Stiva - Tablou de elemente", sArrayPanel);
 
@@ -320,34 +320,34 @@ public class StackPanel extends javax.swing.JPanel {
             //System.out.println("ok");
             return;
         }
-        int temp = sA.push(sinputText.getText());
+        int temp = stackArray.push(sinputText.getText());
        
         if(temp==-1) {
             pushButton.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE); 
         }
         popButton.setEnabled(true);
-        scomp.setValues(sA);
+        stackComp.setValues(stackArray);
         sinputText.setText("");
 
     }
 
     private void popButtonActionPerformed(ActionEvent evt) {
-        String temp = sA.pop();
+        String temp = stackArray.pop();
         if(temp == null){
             popButton.setEnabled(false);
             JOptionPane.showMessageDialog(null, "Stiva nu contine elemente", "alert", JOptionPane.ERROR_MESSAGE); 
         }
         pushButton.setEnabled(true);
-        scomp.setValues(sA);
+        stackComp.setValues(stackArray);
         sinputText.setText("");
     }
 
     private void stackSizeButtonActionPerformed(ActionEvent evt) {
         if(stackSizeText.getText().equals(""))
                 return;
-        if(scomp != null) {
-            sArrayPanel.remove(scomp);
+        if(stackComp != null) {
+            sArrayPanel.remove(stackComp);
         }
         if(stackSizeText.getText() != " ") {
             stackSizeLabel.setText( "Numar de elemente in stiva:   "+ stackSizeText.getText());
@@ -358,12 +358,12 @@ public class StackPanel extends javax.swing.JPanel {
             stackResetButton.setEnabled(true);
 
         }
-        scomp = new StackComponent();
+        stackComp = new StackComponent();
 
-        sArrayPanel.add(scomp,BorderLayout.CENTER);
+        sArrayPanel.add(stackComp, BorderLayout.CENTER);
 
-        sA = new GraphicalArrayStack(Integer.parseInt(stackSizeText.getText()), sArrayPanel.getWidth(),sArrayPanel.getHeight());
-        scomp.setValues(sA);
+        stackArray = new GraphicalArrayStack(Integer.parseInt(stackSizeText.getText()), sArrayPanel.getWidth(),sArrayPanel.getHeight());
+        stackComp.setValues(stackArray);
         sArrayPanel.revalidate();
 
         stackSizeText.setText(null);
@@ -372,8 +372,8 @@ public class StackPanel extends javax.swing.JPanel {
     private void stackResetButtonActionPerformed(ActionEvent evt) {
         stackSizeLabel.setText( "Numar de elemente in stiva:  ");
         stackSizeButton.setEnabled(true);
-        sA.size=0;
-        scomp.setValues(sA);
+        stackArray.size=0;
+        stackComp.setValues(stackArray);
         pushButton.setEnabled(false);
         popButton.setEnabled(false);
         stackSizeButton.setEnabled(true);
@@ -383,8 +383,8 @@ public class StackPanel extends javax.swing.JPanel {
        if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if(stackSizeText.getText().equals(""))
                 return;
-            if(scomp != null) {
-                sArrayPanel.remove(scomp);
+            if(stackComp != null) {
+                sArrayPanel.remove(stackComp);
             }
             if(stackSizeText.getText() != " ") {
                 stackSizeLabel.setText( "Numar de elemente in stiva:   " + stackSizeText.getText());
@@ -395,12 +395,12 @@ public class StackPanel extends javax.swing.JPanel {
                 stackResetButton.setEnabled(true);
 
             }
-            scomp = new StackComponent();
+            stackComp = new StackComponent();
 
-            sArrayPanel.add(scomp,BorderLayout.CENTER);
+            sArrayPanel.add(stackComp, BorderLayout.CENTER);
 
-            sA = new GraphicalArrayStack(Integer.parseInt(stackSizeText.getText()), sArrayPanel.getWidth(),sArrayPanel.getHeight());
-            scomp.setValues(sA);
+            stackArray = new GraphicalArrayStack(Integer.parseInt(stackSizeText.getText()), sArrayPanel.getWidth(),sArrayPanel.getHeight());
+            stackComp.setValues(stackArray);
             sArrayPanel.revalidate();
 
             stackSizeText.setText(null);
@@ -413,7 +413,7 @@ public class StackPanel extends javax.swing.JPanel {
         if(sListInputText.getText().equals("")) {
             return;
         }        
-        listA.insert(Integer.parseInt(sListInputText.getText()));
+        listA.insertElement(Integer.parseInt(sListInputText.getText()));
          lcomp.setValues(listA,1,'n');
         sListInputText.setText("");   
     }
@@ -424,14 +424,14 @@ public class StackPanel extends javax.swing.JPanel {
 	        lcomp.setValues(listA, 0, 'e');         
 	     }
 	     else {
-	         listA.delete(listA.last.data);
-	         lcomp.setValues(listA, 0, 'n');
+	         listA.deleteElement(listA.last.data);
+	         lcomp.setValues(listA, 0, 'n'); //n
 	     }
     }
 
     private void sListInputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            listA.insert(Integer.parseInt(sListInputText.getText()));
+            listA.insertElement(Integer.parseInt(sListInputText.getText()));
             lcomp.setValues(listA,1,'n');
             sListInputText.setText(null);
        }
@@ -442,14 +442,14 @@ public class StackPanel extends javax.swing.JPanel {
            if(sinputText.getText().equals("")) {
                 return;
             }
-            int temp = sA.push(sinputText.getText());
+            int temp = stackArray.push(sinputText.getText());
 
             if(temp==-1) {
                 pushButton.setEnabled(false);
                 JOptionPane.showMessageDialog(null, "Stiva este plina.", "alert", JOptionPane.ERROR_MESSAGE); 
             }
             popButton.setEnabled(true);
-            scomp.setValues(sA);
+            stackComp.setValues(stackArray);
             sinputText.setText("");
        }
     }

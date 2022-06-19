@@ -1,4 +1,4 @@
-package dsa;
+package dsa.stack;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

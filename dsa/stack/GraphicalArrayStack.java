@@ -1,4 +1,4 @@
-package dsa;
+package dsa.stack;
 
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -8,7 +8,8 @@ public class GraphicalArrayStack {
 	Rectangle2D stackArray[];
     String val[];
     Line2D t;
-    int top, count, size;
+    int top, count;
+	public int size;
     
     public GraphicalArrayStack(int size, int width, int height) {
           	this.size = size;

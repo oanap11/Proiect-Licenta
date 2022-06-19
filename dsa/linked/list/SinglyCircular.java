@@ -1,14 +1,18 @@
-package dsa;
+
+package dsa.linked.list;
 
 import java.awt.Color;
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
+import dsa.Node;
+import dsa.SinglyLinkedList;
+
 public class SinglyCircular extends JComponent {
     private static final long serialVersionUID = 1L;
     
-	SingleLinkedList list;
+	SinglyLinkedList list;
     int operation ;
     int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
     int initialX, initialY, interX, interY;
@@ -262,8 +266,8 @@ public class SinglyCircular extends JComponent {
 
      }
    
-  public void setValues(SingleLinkedList list, int operation) {
-      this.list = list;
+  public void setValues(SinglyLinkedList listCircular, int operation) {
+      this.list = listCircular;
       this.operation = operation;
       if(this.operation == 1){
             Thread t1 = new Thread(new Runnable() {

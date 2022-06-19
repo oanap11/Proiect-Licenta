@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
 import java.awt.image.BufferedImage;
@@ -28,16 +29,23 @@ import javax.swing.JSlider;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
+import dsa.algos.PathFindingPanel;
+import dsa.panels.ListPanel;
+import dsa.panels.QueuePanel;
+import dsa.panels.StackPanel;
+import dsa.panels.TreePanel;
+import login.LoginForm;
 
-
-public class Main extends javax.swing.JFrame {
+public class Main extends JFrame {
 
     static ListPanel listPanel;
+    static PathFindingPanel algoPanel;
     static StackPanel stackPanel;
     static QueuePanel queuePanel;
     static TreePanel treePanel;
     static JPanel mainPanel;
     static JPanel welcomePanel;
+    static JPanel avlPanel;
     
     private JMenuItem arrayMenu;
     private JMenu meniuPrincipal;
@@ -48,8 +56,17 @@ public class Main extends javax.swing.JFrame {
     private JMenuItem queueMenu;
     private JMenuItem stackMenu;
     private JMenuItem treeMenu;
+    private JMenuItem algoMenu;
+    //private JMenu avlMenu;
+    
+    ImageIcon stackIcon;
+    
+    
+    //private LoginForm login = new LoginForm();
     
     public Main() {
+    	logIn();
+    	
         initComponents();
         welcomePanel = new JPanel();
         mainPanel =  new JPanel();
@@ -58,22 +75,27 @@ public class Main extends javax.swing.JFrame {
         stackPanel = new StackPanel();
         queuePanel = new QueuePanel();
         treePanel = new TreePanel();
+        algoPanel = new PathFindingPanel();
         
-        BufferedImage myPicture = null;
+        
+        /*BufferedImage myPicture = null;
 		try {
-			myPicture = ImageIO.read(new File("/home/oana/Desktop/dsa.png"));
+			myPicture = ImageIO.read(new File("/images/sda.png"));
 		} 
 		catch (IOException e) {
 			e.printStackTrace();
-		}
-        JLabel picLabel = new JLabel(new ImageIcon(myPicture));
-        //welcomePanel.add(picLabel);
+		} */
+		
+        JLabel picLabel = new JLabel();
+        picLabel.setIcon(new ImageIcon(getClass().getResource("/images/idk.png"))); 
+        welcomePanel.add(picLabel);
         
-        int x = (Toolkit.getDefaultToolkit().getScreenSize().width / 2);
+        /*int x = (Toolkit.getDefaultToolkit().getScreenSize().width / 2);
         int y = (Toolkit.getDefaultToolkit().getScreenSize().height / 2);
         this.setExtendedState(this.getExtendedState() | JFrame.MAXIMIZED_BOTH); 
        
-       setPanelSize();
+       setPanelSize();*/
+        mainPanel.setSize(800, 800);
        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
        
        welcomePanel.setBackground(Color.white);
@@ -83,10 +105,16 @@ public class Main extends javax.swing.JFrame {
         mainPanel.add(stackPanel);
         mainPanel.add(treePanel);
         mainPanel.add(queuePanel);
+        mainPanel.add(algoPanel);
+        //mainPanel.add(picLabel);
         add(mainPanel, BorderLayout.CENTER);
         hidePanels();
         this.pack(); 
     }
+    
+    private void logIn() {
+		//login.setVisible(true);
+	}
 
     @SuppressWarnings("unchecked")
     private void initComponents() {
@@ -94,27 +122,34 @@ public class Main extends javax.swing.JFrame {
         jSlider1 = new JSlider();
         jMenuBar1 = new JMenuBar();
         meniuPrincipal = new JMenu();
+        
         linkedListMenu = new JMenuItem();
         treeMenu = new JMenuItem();
         stackMenu = new JMenuItem();
         queueMenu = new JMenuItem();
         arrayMenu = new JMenuItem();
+        algoMenu = new JMenuItem();
         jMenu2 = new JMenu();
+        
+        stackIcon = new ImageIcon("/images/back.png");
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Aplicatie pentru vizualizarea structurilor de date");
         setSize(new Dimension(800, 800));
         setLocationRelativeTo(null);
-        //setResizable(false);
+        setResizable(false);
         //setMinimumSize(new Dimension(800, 550));
         
-        addWindowStateListener(new WindowStateListener() {
+        /*addWindowStateListener(new WindowStateListener() {
             public void windowStateChanged(WindowEvent evt) {
                 formWindowStateChanged(evt);
             }
-        });
+        }); */
+        
 
-        meniuPrincipal.setText("Structuri de date");
+        meniuPrincipal.setText("Structuri de date \n"
+        		+ "▼\n"
+        		+ "");
 
         linkedListMenu.setText("Liste Inlantuite");
         linkedListMenu.addActionListener(new ActionListener() {
@@ -138,6 +173,7 @@ public class Main extends javax.swing.JFrame {
                 stackMenuActionPerformed(evt);
             }
         });
+        stackMenu.setIcon(stackIcon);
         meniuPrincipal.add(stackMenu);
 
         queueMenu.setText("Coada");
@@ -147,6 +183,14 @@ public class Main extends javax.swing.JFrame {
             }
         });
         meniuPrincipal.add(queueMenu);
+        
+        algoMenu.setText("Algoritmi de cautare");
+        algoMenu.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                algoMenuActionPerformed(evt);
+            }
+        });
+        meniuPrincipal.add(algoMenu);
 
         
         jMenuBar1.setPreferredSize(new Dimension(100, 100));
@@ -180,6 +224,7 @@ public class Main extends javax.swing.JFrame {
         stackPanel.setVisible(false);
         queuePanel.setVisible(false);
         treePanel.setVisible(false);
+        algoPanel.setVisible(false);
     }
     
     private void linkedListMenuActionPerformed(ActionEvent evt) {
@@ -193,6 +238,12 @@ public class Main extends javax.swing.JFrame {
         treePanel.setVisible(true);
         welcomePanel.setVisible(false);
     }
+    
+    private void avlMenuActionPerformed(ActionEvent evt) {
+        hidePanels();
+        avlPanel.setVisible(true);
+        welcomePanel.setVisible(false);
+    }
 
     private void stackMenuActionPerformed(ActionEvent evt) {
         hidePanels();
@@ -203,6 +254,22 @@ public class Main extends javax.swing.JFrame {
     private void queueMenuActionPerformed(ActionEvent evt) {
         hidePanels();
         queuePanel.setVisible(true);
+        welcomePanel.setVisible(false);
+    }
+    
+    private void algoMenuActionPerformed(ActionEvent evt) {
+        hidePanels();
+        //queuePanel.setVisible(true);
+        /*SwingUtilities.invokeLater(new Runnable(){
+			@Override
+			public void run() {
+				PathfindingFrame frame = new PathfindingFrame();
+				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				frame.setTitle("Vizualizare algoritmi de rutare");
+				frame.setVisible(true);
+			}			
+		});		*/
+        algoPanel.setVisible(true);
         welcomePanel.setVisible(false);
     }
 
@@ -220,19 +287,21 @@ public class Main extends javax.swing.JFrame {
     	try {
 			String className = UIManager.getCrossPlatformLookAndFeelClassName();
 			UIManager.setLookAndFeel(className);
-		} catch (Exception e) {} 
+		} 
+    	catch (Exception e) {} 
     	
-    	Font f = new Font("sans-serif", Font.PLAIN, 50);
+    	Font f = new Font("dialog", Font.BOLD, 50);
+    	UIManager.put("MenuItem.foreground", Color.WHITE);
+    	UIManager.put("Menu.foreground", Color.WHITE);
     	UIManager.put("Menu.font", f);
-    	UIManager.put("MenuItem.font", f);
-    	
+    	UIManager.put("MenuItem.font", f);   	
     	UIManager.put("MenuBar.background", new Color(255, 87, 51));
-    	//UIManager.put("Menu.background", Color.GREEN);
         UIManager.put("MenuItem.background", new Color(255, 87, 51));
 		
 		SwingUtilities.invokeLater(new Runnable(){
 			public void run() {
-				new Main().setVisible(true);;
+				new LoginForm().setVisible(true);;
+				//new Main().setVisible(true);
 			}
 		});
     }

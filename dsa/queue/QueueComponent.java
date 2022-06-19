@@ -1,4 +1,4 @@
-package dsa;
+package dsa.queue;
 
 import java.awt.BasicStroke;
 import java.awt.Color;

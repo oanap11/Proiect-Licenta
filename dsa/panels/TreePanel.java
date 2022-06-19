@@ -1,4 +1,4 @@
-package dsa;
+package dsa.panels;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -29,6 +29,9 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 
+import dsa.trees.GraphicalTree;
+import dsa.trees.TreeComponent;
+
 public class TreePanel extends javax.swing.JPanel {
 	
     private JButton bstDelButton;
@@ -43,20 +46,32 @@ public class TreePanel extends javax.swing.JPanel {
     private JPanel treeCenterPanel;
     private JTabbedPane treePane;
     
-    JTextField bstFindText;
-    JButton bstFindButton;
+    private JPanel avlNorthPanel;
+    private JPanel avlSouthPanel;
+     
+    JPanel avlPanel;
+    TreeComponent treeComponent;
+    GraphicalTree graphicalTree;
     
-    TreeComponent comp;
-    GraphicalTree gt;
     public TreePanel() {
         initComponents();
-        comp = new TreeComponent();
-        bstPanel.add(comp,BorderLayout.CENTER);
-        gt = new GraphicalTree();
+        treeComponent = new TreeComponent();
+        bstPanel.add(treeComponent, BorderLayout.CENTER);
+        graphicalTree = new GraphicalTree();
     }
 
     private void initComponents() {
+    	treePane = new JTabbedPane();
+        /*singlyListPanel =  new JPanel() {
+            public void paint(Graphics g)
+            {
+                super.paint(g);
 
+            }
+
+        };*/
+    	avlPanel = new JPanel();
+    	avlPanel.setBackground(Color.red);
         treeCenterPanel = new JPanel();
         treePane = new JTabbedPane();
         bstPanel = new JPanel();
@@ -68,8 +83,8 @@ public class TreePanel extends javax.swing.JPanel {
         bstSouthPanel = new JPanel();
         bstSlider = new JSlider();
         
-        bstFindText = new JTextField();
-        bstFindButton = new JButton();
+        avlNorthPanel = new JPanel();
+        avlSouthPanel = new JPanel();
 
         jSeparator3 = new JSeparator();
 
@@ -103,12 +118,6 @@ public class TreePanel extends javax.swing.JPanel {
         bstInsertText.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {
                 bstInsertTextKeyPressed(evt);
-            }
-        });
-
-        bstDelText.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                bstDelTextActionPerformed(evt);
             }
         });
 
@@ -153,8 +162,11 @@ public class TreePanel extends javax.swing.JPanel {
         bstSouthPanel.setBackground(new Color(255, 87, 51));
         bstSouthPanel.setPreferredSize(new Dimension(100, 100));
         bstPanel.add(bstSouthPanel, BorderLayout.SOUTH);
+        
+        
 
         treePane.addTab("Arbore binar de cautare", bstPanel);
+        treePane.addTab("Arbore AVL", avlPanel);
 
         treeCenterPanel.add(treePane);
 
@@ -167,22 +179,18 @@ public class TreePanel extends javax.swing.JPanel {
         bstInsertButton.setEnabled(false);
         bstDelButton.setEnabled(false);
         
-        comp.setValues(gt,'d', bstDelText.getText());
+        treeComponent.setValues(graphicalTree,'d', bstDelText.getText());
         bstDelText.setText("");
         
         bstInsertButton.setEnabled(true);
         bstDelButton.setEnabled(true);
     }
 
-    private void bstDelTextActionPerformed(ActionEvent evt) {}
-
-    private void bstRunButtonActionPerformed(ActionEvent evt) {}
-
     private void bstInsertButtonActionPerformed(ActionEvent evt) {
         bstInsertButton.setEnabled(false);
         bstDelButton.setEnabled(false);
         
-        comp.setValues(gt,'i', bstInsertText.getText());
+        treeComponent.setValues(graphicalTree,'i', bstInsertText.getText());
         bstInsertText.setText("");
         
         bstInsertButton.setEnabled(true);
@@ -194,7 +202,7 @@ public class TreePanel extends javax.swing.JPanel {
 	        bstInsertButton.setEnabled(false);
 	        bstDelButton.setEnabled(false);
 	        
-	        comp.setValues(gt,'i', bstInsertText.getText());
+	        treeComponent.setValues(graphicalTree,'i', bstInsertText.getText());
 	        bstInsertText.setText("");
 	        
 	        bstInsertButton.setEnabled(true);

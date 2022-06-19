@@ -1,4 +1,4 @@
-package dsa;
+package dsa.trees;
 
 import java.awt.Graphics;
 
@@ -21,7 +21,7 @@ public class GraphicalTree {
     }
     
     //adancime nod = numarul de legaturi pe care coboram de la radacina la nodul respectiv
-    int depth(NodeTree t) {
+    public int depth(NodeTree t) {
 		if(t == null)
 			return 0;
 		return 1 + max(depth(t.left), depth(t.right));
@@ -68,7 +68,7 @@ public class GraphicalTree {
     }
     
       
-    void draw(NodeTree t, Graphics g, int x, int y, int prevx, int prevy, int lev, int gap) {   
+    public void draw(NodeTree t, Graphics g, int x, int y, int prevx, int prevy, int lev, int gap) {   
 		if(t == null) {
 			return;
 		}
@@ -84,7 +84,7 @@ public class GraphicalTree {
 		draw(t.right, g, x + gap, y + 50, x, y, lev, gap);
     }
     
-    int delete(String v, Graphics g) {
+    public int delete(String v, Graphics g) {
         double va = Double.parseDouble(v);
         if(root == null) {
             return -1;

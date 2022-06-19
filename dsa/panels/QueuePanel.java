@@ -1,4 +1,4 @@
-package dsa;
+package dsa.panels;
 
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
@@ -32,19 +32,23 @@ import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import dsa.SinglyLinkedList;
+import dsa.queue.GraphicalArrayQueue;
+import dsa.queue.QueueListComponent;
+import dsa.queue.QueueComponent;
+
 
 public class QueuePanel extends JPanel {
 
-    QueueComponent qcomp;
-    GraphicalArrayQueue qA;
-    QListComponent lcomp;
-    SingleLinkedList listA;
+    QueueComponent queueComponent;
+    GraphicalArrayQueue arrayQueue;
+    QueueListComponent lcomp;
+    SinglyLinkedList listA;
     
-    private JButton dequeueButton, dequeueButton1, enqueueButton;
+    private JButton dequeueButton, dequeueButtonList, enqueueButton;
     private JSeparator jSeparator1, jSeparator2, jSeparator3, jSeparator5, jSeparator6;
     private JPanel qArrayPanel, qLinkedPanel;
     private JSlider qArraySlider, qLinkedSlider;
-    private JButton qLinkedPauseButton, qLinkedSkipButton;
 
     private JButton qLinkedStepButton, qListEnqueueButton;
     private JTextField qListinputText, qinputText;
@@ -58,10 +62,10 @@ public class QueuePanel extends JPanel {
     public QueuePanel() {
         initComponents();
         sizeText.setText(null);
-        lcomp = new QListComponent();
+        lcomp = new QueueListComponent();
         qLinkedPanel.add(lcomp, BorderLayout.CENTER);
-        listA = new SingleLinkedList();
-        lcomp.setValues(listA,0);
+        listA = new SinglyLinkedList();
+        lcomp.setValues(listA,0, 'n');
         enqueueButton.setEnabled(false);
         dequeueButton.setEnabled(false);
         resetButton.setEnabled(false);
@@ -98,14 +102,12 @@ public class QueuePanel extends JPanel {
         qLinkedPanel = new JPanel();
         queueNorthLinkedPanel = new JPanel();
         qListEnqueueButton = new JButton();
-        dequeueButton1 = new JButton();
+        dequeueButtonList = new JButton();
         qListinputText = new JTextField();
         jSeparator5 = new JSeparator();
         queueSouthLinkedPanel = new JPanel();
         qLinkedSlider = new JSlider();
-        qLinkedPauseButton = new JButton();
         qLinkedStepButton = new JButton();
-        qLinkedSkipButton = new JButton();
         jSeparator6 = new JSeparator();
 
         setLayout(new BorderLayout());
@@ -245,10 +247,10 @@ public class QueuePanel extends JPanel {
             }
         });
 
-        dequeueButton1.setText("Scoate element");
-        dequeueButton1.addActionListener(new ActionListener() {
+        dequeueButtonList.setText("Scoate element");
+        dequeueButtonList.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
-                dequeueButton1ActionPerformed(evt);
+            	dequeueButtonListActionPerformed(evt);
             }
         });
 
@@ -271,7 +273,7 @@ public class QueuePanel extends JPanel {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(qListEnqueueButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dequeueButton1, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(dequeueButtonList, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 322, Short.MAX_VALUE)
                 .addComponent(jSeparator5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(82, 82, 82))
@@ -285,7 +287,7 @@ public class QueuePanel extends JPanel {
                     .addGroup(queueNorthLinkedPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(qListinputText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(qListEnqueueButton)
-                        .addComponent(dequeueButton1)))
+                        .addComponent(dequeueButtonList)))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -305,13 +307,13 @@ public class QueuePanel extends JPanel {
     }
 
     private void dequeueButtonActionPerformed(ActionEvent evt) {
-         String s = qA.dequeue();
+         String s = arrayQueue.dequeue();
          if(s == null) {
              dequeueButton.setEnabled(false);
              JOptionPane.showMessageDialog(null, "Coada este goala.", "alert", JOptionPane.ERROR_MESSAGE); 
          }
          enqueueButton.setEnabled(true);
-         qcomp.setValues(qA);
+         queueComponent.setValues(arrayQueue);
          qinputText.setText("");
     }
 
@@ -319,8 +321,8 @@ public class QueuePanel extends JPanel {
         if(sizeText.getText().equals(""))
                 return;
         
-        if(qcomp != null) {
-            qArrayPanel.remove(qcomp);
+        if(queueComponent != null) {
+            qArrayPanel.remove(queueComponent);
         }
         if(sizeText.getText() != " ") {
             sizeLabel.setText( "Numar elemente:  " + sizeText.getText());
@@ -329,12 +331,12 @@ public class QueuePanel extends JPanel {
             dequeueButton.setEnabled(true);
             resetButton.setEnabled(true);
         }
-        qcomp = new QueueComponent();
+        queueComponent = new QueueComponent();
         
-        qArrayPanel.add(qcomp,BorderLayout.CENTER);
+        qArrayPanel.add(queueComponent,BorderLayout.CENTER);
         
-        qA = new GraphicalArrayQueue(Integer.parseInt(sizeText.getText()), qArrayPanel.getWidth(),qArrayPanel.getHeight());
-        qcomp.setValues(qA);
+        arrayQueue = new GraphicalArrayQueue(Integer.parseInt(sizeText.getText()), qArrayPanel.getWidth(),qArrayPanel.getHeight());
+        queueComponent.setValues(arrayQueue);
         qArrayPanel.revalidate();
 
         sizeText.setText(null);
@@ -349,8 +351,8 @@ public class QueuePanel extends JPanel {
         enqueueButton.setEnabled(false);
         dequeueButton.setEnabled(false);
         resetButton.setEnabled(false);
-        qA.size = 0;
-        qcomp.setValues(qA);
+        arrayQueue.size = 0;
+        queueComponent.setValues(arrayQueue);
     }
 
     private void sizeTextKeyPressed(KeyEvent evt) {
@@ -358,8 +360,8 @@ public class QueuePanel extends JPanel {
             if(sizeText.getText().equals(""))
                 return;
         
-        if(qcomp != null){
-            qArrayPanel.remove(qcomp);
+        if(queueComponent != null){
+            qArrayPanel.remove(queueComponent);
         }
         if(sizeText.getText() != " "){
             sizeLabel.setText( "Numar elemenete: " + sizeText.getText());
@@ -369,12 +371,12 @@ public class QueuePanel extends JPanel {
             dequeueButton.setEnabled(true);
             resetButton.setEnabled(true);
         }
-        qcomp = new QueueComponent();
+        queueComponent = new QueueComponent();
         
-        qArrayPanel.add(qcomp,BorderLayout.CENTER);
+        qArrayPanel.add(queueComponent,BorderLayout.CENTER);
         
-        qA = new GraphicalArrayQueue(Integer.parseInt(sizeText.getText()), qArrayPanel.getWidth(),qArrayPanel.getHeight());
-        qcomp.setValues(qA);
+        arrayQueue = new GraphicalArrayQueue(Integer.parseInt(sizeText.getText()), qArrayPanel.getWidth(),qArrayPanel.getHeight());
+        queueComponent.setValues(arrayQueue);
         qArrayPanel.revalidate();
 
         sizeText.setText(null);
@@ -383,39 +385,39 @@ public class QueuePanel extends JPanel {
     }
 
     private void enqueueButtonActionPerformed(ActionEvent evt) {
-        int a = qA.enqueue(qinputText.getText());
+        int a = arrayQueue.enqueue(qinputText.getText());
         if(a==-1){
             JOptionPane.showMessageDialog(null, "Coada este plina.", "alert", JOptionPane.ERROR_MESSAGE); 
             enqueueButton.setEnabled(false);
         }
         dequeueButton.setEnabled(true);
-        qcomp.setValues(qA);
+        queueComponent.setValues(arrayQueue);
         qinputText.setText(""); 
     }
 
-    private void dequeueButton1ActionPerformed(ActionEvent evt) {
+    private void dequeueButtonListActionPerformed(ActionEvent evt) {
        if(listA.first == null)
              JOptionPane.showMessageDialog(null, "Nu sunt elemente in coada", "alert", JOptionPane.ERROR_MESSAGE); 
        else 
-             listA.delete(listA.first.data);
-      lcomp.setValues(listA,0);
+             listA.deleteElement(listA.first.data);
+      lcomp.setValues(listA,0,'n');
     }
 
     private void qListEnqueueButtonActionPerformed(ActionEvent evt) {
-        listA.insert(Integer.parseInt(qListinputText.getText()));
-        lcomp.setValues(listA,1);
+        listA.insertElement(Integer.parseInt(qListinputText.getText()));
+        lcomp.setValues(listA,1, 'n');
         qListinputText.setText("");
     }
     
     private void qinputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-            int a = qA.enqueue(qinputText.getText());
+            int a = arrayQueue.enqueue(qinputText.getText());
             if(a==-1){
                 JOptionPane.showMessageDialog(null, "Coada este plina", "alert", JOptionPane.ERROR_MESSAGE); 
                 enqueueButton.setEnabled(false);
             }
             dequeueButton.setEnabled(true);
-            qcomp.setValues(qA);
+            queueComponent.setValues(arrayQueue);
             qinputText.setText(""); 
        }
     }
@@ -424,8 +426,8 @@ public class QueuePanel extends JPanel {
 
     private void qListinputTextKeyPressed(KeyEvent evt) {
        if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-            listA.insert(Integer.parseInt(qListinputText.getText()));
-            lcomp.setValues(listA,1);
+            listA.insertElement(Integer.parseInt(qListinputText.getText()));
+            lcomp.setValues(listA,1, 'n');
             qListinputText.setText("");
        }
     }

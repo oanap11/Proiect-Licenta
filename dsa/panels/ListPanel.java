@@ -1,4 +1,4 @@
-package dsa;
+package dsa.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,50 +23,42 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.TitledBorder;
 
+import dsa.SinglyLinkedList;
+import dsa.linked.list.ListComponent;
+import dsa.linked.list.SinglyCircular;
 
-public class ListPanel extends javax.swing.JPanel {
 
-    ListComponent listComponent;
+public class ListPanel extends JPanel {
+
+    ListComponent singlyLinked;
     SinglyCircular singlyCircular;
+    SinglyLinkedList listSimple, listCircular;
 
-    SingleLinkedList listA, listCircular;
-
-    private JButton deleteButtonList, deleteButtonCircular;
-    private JSeparator jSeparator3, jSeparator7, jSeparator8, jSeparator9;
+    private JButton singlyaddButton, singlyCircularAddButton, deleteButtonList, deleteButtonCircular;
     private JTabbedPane lsitPane;
+    private JTextField singlyAddNodeField, circularAddNodeField;
     private JTextField singlyListDelField, circularListDelField;
-    private JPanel singlyCircularPanel;
-
-    private JPanel singlyListNorthPanel;
-    private JPanel singlyListSouthPanel;
-    private JPanel singlyCircularNorthPanel;
-    private JPanel singlyCircularSouthPanel;
-    private JPanel singlyListPanel;
-
+    
+    private JPanel singlyListPanel, singlyListSouthPanel, singlyListNorthPanel;
+    private JPanel singlyCircularPanel, singlyCircularNorthPanel, singlyCircularSouthPanel;
+    
     private JSlider singlySlider;
     private JSlider singlySlider1;
-
-    private JButton singlyaddButton;
-    private JButton singlyaddButton1;
-    private JTextField singlyaddNodeText;
-    private JTextField circularAddNodeField;
     
     public ListPanel() {
 	        initComponents();
 	        
 	        singlyCircular = new SinglyCircular();
-	        listComponent = new ListComponent();
+	        singlyLinked = new ListComponent();
 	        
-	        singlyListPanel.add(listComponent,BorderLayout.CENTER);
+	        singlyListPanel.add(singlyLinked,BorderLayout.CENTER);
 	        singlyCircularPanel.add(singlyCircular,BorderLayout.CENTER);
 	
+	        listSimple = new SinglyLinkedList();
+	        listCircular = new SinglyLinkedList();
 	        
-	        listA = new SingleLinkedList();
-	        listCircular = new SingleLinkedList();
-	        
-	        listComponent.setValues(listA, 0);
+	        singlyLinked.setValues(listSimple, 0);
 	        singlyCircular.setValues(listCircular, 0);
-	
 	        
 	        singlyListPanel.revalidate();
 	        singlyCircularPanel.revalidate();
@@ -86,36 +78,30 @@ public class ListPanel extends javax.swing.JPanel {
         };
         singlyListNorthPanel = new JPanel();
         singlyListSouthPanel = new JPanel();
-        singlyaddNodeText = new JTextField();
+        singlyAddNodeField = new JTextField();
         singlyaddButton = new JButton();
         singlyListDelField = new JTextField();
         deleteButtonList = new JButton();
         
         singlySlider = new JSlider();
         
-        jSeparator3 = new JSeparator();
         singlyCircularPanel = new JPanel();
         singlyCircularNorthPanel = new JPanel();
         singlyCircularSouthPanel = new JPanel();
         circularAddNodeField = new JTextField();
-        singlyaddButton1 = new JButton();
+        singlyCircularAddButton = new JButton();
         circularListDelField = new JTextField();
         deleteButtonCircular = new JButton();
         
         singlySlider1 = new JSlider();
         
-        jSeparator7 = new JSeparator();
-        jSeparator8 = new JSeparator();
-        jSeparator9 = new JSeparator();
-       
-
         setLayout(new BorderLayout());
 
         singlyListPanel.setBackground(Color.white);
         singlyListPanel.setLayout(new BorderLayout());
 
-        singlyaddNodeText.setColumns(5);
-        singlyaddNodeText.addKeyListener(new KeyAdapter() {
+        singlyAddNodeField.setColumns(5);
+        singlyAddNodeField.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {
                 singlyaddNodeTextKeyPressed(evt);
             }
@@ -158,7 +144,7 @@ public class ListPanel extends javax.swing.JPanel {
             .addGroup(singlyListNorthPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGap(18, 18, 18)
-                .addComponent(singlyaddNodeText, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
+                .addComponent(singlyAddNodeField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(singlyaddButton, 0, GroupLayout.DEFAULT_SIZE, 150)
                 .addGap(35, 35, 35)
@@ -173,7 +159,7 @@ public class ListPanel extends javax.swing.JPanel {
                 .addGroup(singlyListNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(singlyListNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(singlyaddButton)
-                        .addComponent(singlyaddNodeText, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                        .addComponent(singlyAddNodeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(singlyListDelField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addComponent(deleteButtonList))
                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -198,8 +184,8 @@ public class ListPanel extends javax.swing.JPanel {
             }
         });
 
-        singlyaddButton1.setText("Adauga element");
-        singlyaddButton1.addActionListener(new ActionListener() {
+        singlyCircularAddButton.setText("Adauga element");
+        singlyCircularAddButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 singlyaddButton1ActionPerformed(evt);
             }
@@ -232,7 +218,7 @@ public class ListPanel extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(circularAddNodeField, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(singlyaddButton1, 0, GroupLayout.DEFAULT_SIZE, 200)
+                .addComponent(singlyCircularAddButton, 0, GroupLayout.DEFAULT_SIZE, 200)
                 .addGap(41, 41, 41)
                 .addComponent(circularListDelField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -244,7 +230,7 @@ public class ListPanel extends javax.swing.JPanel {
             .addGroup(GroupLayout.Alignment.TRAILING, singlyCircularNorthPanelLayout.createSequentialGroup()
                 .addGroup(singlyCircularNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                     .addGroup(singlyCircularNorthPanelLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                        .addComponent(singlyaddButton1)
+                        .addComponent(singlyCircularAddButton)
                         .addComponent(circularAddNodeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                         .addComponent(circularListDelField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                     .addComponent(deleteButtonCircular))
@@ -266,41 +252,41 @@ public class ListPanel extends javax.swing.JPanel {
     
     //eveniment la apasarea butonului de inserare pentru a adauga elemente lista simplu inlantuita
     private void singlyaddButtonActionPerformed(ActionEvent evt) {
-        listA.insert(Integer.parseInt(singlyaddNodeText.getText()));
-        listComponent.setValues(listA, 1);
-        singlyaddNodeText.setText("");
+    	listSimple.insertElement(Integer.parseInt(singlyAddNodeField.getText()));
+    	singlyLinked.setValues(listSimple, 1);
+    	singlyAddNodeField.setText("");
     }
     
     //eveniment la apasarea butonului de inserare pentru a adauga elemente lista circulara simplu inlantuita
     private void singlyaddButton1ActionPerformed(ActionEvent evt) {
-        listCircular.insert(Integer.parseInt(circularAddNodeField.getText()));
+        listCircular.insertElement(Integer.parseInt(circularAddNodeField.getText()));
         singlyCircular.setValues(listCircular, 1);
         circularAddNodeField.setText("");
     }
  
     //eveniment la apasarea butonului de stergere pentru a scoate elemente din lista simplu inlantuita
     private void deleteButtonActionPerformed(ActionEvent evt) {
-        if(listA.delete(Integer.parseInt(singlyListDelField.getText())) == null){
+        if(listSimple.deleteElement(Integer.parseInt(singlyListDelField.getText())) == null){
         	JOptionPane.showMessageDialog(this, "Elementul nu a fost gasit in lista.");
         }
         else {
             singlyListDelField.setText("");
         }
-        listComponent.setValues(listA,0);
+        singlyLinked.setValues(listSimple, 0);
     }
     
   //eveniment la apasarea tastei Enter pentru adaugarea de elemente in lista simplu inlantuita
     private void singlyaddNodeTextKeyPressed(KeyEvent evt) {
     	if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-	        listA.insert(Integer.parseInt(singlyaddNodeText.getText()));
-	        listComponent.setValues(listA, 1);
-	        singlyaddNodeText.setText("");
+    		listSimple.insertElement(Integer.parseInt(singlyAddNodeField.getText()));
+    		singlyLinked.setValues(listSimple, 1);
+    		singlyAddNodeField.setText("");
     	}       
     }
 
     //eveniment la apasarea butonului de stergere elemente in lista circulara simplu inlantuita
     private void jButton37ActionPerformed(ActionEvent evt) {
-         if(listCircular.delete(Integer.parseInt(circularListDelField.getText())) == null){
+         if(listCircular.deleteElement(Integer.parseInt(circularListDelField.getText())) == null){
         	 JOptionPane.showMessageDialog(this, "Elementul nu a fost gasit in lista.");
         }
         else {
@@ -312,7 +298,7 @@ public class ListPanel extends javax.swing.JPanel {
 	//eveniment la apasarea tastei Enter pentru adaugarea de elemente in lista circulara simplu inlantuita
     private void circularAddNodeFieldKeyPressed(KeyEvent evt) {
     	if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-            listCircular.insert(Integer.parseInt(circularAddNodeField.getText()));
+            listCircular.insertElement(Integer.parseInt(circularAddNodeField.getText()));
             singlyCircular.setValues(listCircular, 1);
             circularAddNodeField.setText("");
        }
@@ -321,7 +307,7 @@ public class ListPanel extends javax.swing.JPanel {
   //eveniment la apasarea tastei Enter pentru stergerea de elemente in lista circulara simplu inlantuita
     private void circularListDelFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-          if(listCircular.delete(Integer.parseInt(circularListDelField.getText())) == null){
+          if(listCircular.deleteElement(Integer.parseInt(circularListDelField.getText())) == null){
         	  JOptionPane.showMessageDialog(this, "Elementul nu a fost gasit in lista.");
         }
         else {
@@ -335,13 +321,13 @@ public class ListPanel extends javax.swing.JPanel {
     //eveniment la apasarea tastei Enter pentru stergerea de elemente in lista simplu inlantuita
     private void singlyListDelFieldKeyPressed(KeyEvent evt) {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           if(listA.delete(Integer.parseInt(singlyListDelField.getText())) == null){
+           if(listSimple.deleteElement(Integer.parseInt(singlyListDelField.getText())) == null){
         	  JOptionPane.showMessageDialog(this, "Elementul nu a fost gasit in lista.");
         }
         else {
             singlyListDelField.setText("");
         }
-        listComponent.setValues(listA, 0);
+           singlyLinked.setValues(listSimple, 0);
        }
     }
 

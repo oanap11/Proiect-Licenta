@@ -1,4 +1,4 @@
-package dsa;
+package dsa.trees;
 
 import java.awt.Graphics;
 

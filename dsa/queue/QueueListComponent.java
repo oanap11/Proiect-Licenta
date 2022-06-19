@@ -1,4 +1,4 @@
-package dsa;
+package dsa.queue;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -7,9 +7,14 @@ import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 
-public class QListComponent extends JComponent {
+import dsa.panels.ListPanel;
+import dsa.Node;
+import dsa.SinglyLinkedList;
+
+public class QueueListComponent extends JComponent {
     
-	SingleLinkedList list ;
+	SinglyLinkedList list;
+	char flag;
     int operation;
     int tempX, tempY, currentX, currentY, finalX, finalY, data, lastCurrentX, lastCurrentY;
     int width, height;
@@ -100,10 +105,11 @@ public class QListComponent extends JComponent {
          drawNode(g, x, y, "" + data);
   }
    
-  	public void setValues(SingleLinkedList list,int operation){
-       this.list = list;
-       this.operation = operation;
-       repaint();
+  	public void setValues(SinglyLinkedList list, int operation, char flag){
+  		this.flag = flag;
+  		this.list = list;
+  		this.operation = operation;
+  		repaint();
     }
    
   	public void drawList(Graphics g){
