@@ -2,7 +2,7 @@
 
 A tool for visualizing representations of various data structures and algorithms in Java. It provides representations for:
 * singly linked list
-* circular circular linked list
+* circular singly linked list
 * queues (implemented through array and linked list)
 * stacks (implemented through array and linked list)
 * BST. 
